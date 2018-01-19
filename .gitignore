@@ -1,0 +1,9 @@
+.DS_Store
+
+/node_modules
+/data
+
+keystore.json
+saved_data.json
+saved_list.json
+package-lock.json
