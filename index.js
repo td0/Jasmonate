@@ -29,8 +29,6 @@ const readList = () => {
             }
         }
     };
-    // console.log(ListRecognized);
-    // console.log(ListNotRecognized);
 }
 
 const stdout = str =>{
@@ -38,7 +36,7 @@ const stdout = str =>{
 }
 
 const printList = () => {
-    stdout(c.FgWhite+c.BgMagenta+ '<< Recognized >>\n' + c.Reset);
+    stdout('\n'+c.FgWhite+c.BgBlue+ ' -<< Recognized >>- \n' + c.Reset+c.BgBlack);
     for(x in ListRecognized){
         stdout(c.FgYellow+ '> ');
         stdout(c.FgCyan+x+' \t '+c.Reset+': ');
@@ -46,6 +44,18 @@ const printList = () => {
             if(y == ListRecognized[x][ListRecognized[x].length-1]) stdout(y+'\n');
             else stdout(y+', ');
         }
+        stdout(c.Reset);
+    }
+    stdout('\n'+c.FgWhite+c.BgRed+ ' -<< Not Recognized >>- \n' + c.Reset);
+    for(x of ListNotRecognized){
+        stdout(c.FgRed+ '> ');
+        stdout(c.FgMagenta+x.host+c.Reset+'\n');
+        stdout('\t-oid \t:'+x._oid+'\n');
+        stdout('\t-iface \t:'+x.if+'\n');
+        stdout('\t-IP \t:'+x.ip+'\n');
+        stdout('\t-Mac \t:'+x.mac+'\n');
+        stdout('\t-Src \t:'+x.src+'\n');
+        stdout(c.Reset);
     }
 }
 
