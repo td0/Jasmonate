@@ -1,7 +1,7 @@
 {
   "name": "jasmonate",
   "version": "1.0.0",
-  "description": "Kontrakan melati network manager",
+  "description": "Jasmine surveillance",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -1,5 +1,5 @@
 const getMAList = require('./getList');
-const savedData = require('./saved_data.json');
+const savedData = require('./data/saved_data.json');
 const c = require('./colors.js');
 
 var List={};
