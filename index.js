@@ -46,16 +46,18 @@ const printList = () => {
         }
         stdout(c.Reset);
     }
-    stdout('\n'+c.FgWhite+c.BgRed+ ' -<< Not Recognized >>- \n' + c.Reset);
-    for(x of ListNotRecognized){
-        stdout(c.FgRed+ '> ');
-        stdout(c.FgMagenta+x.host+c.Reset+'\n');
-        stdout('\t-oid \t:'+x._oid+'\n');
-        stdout('\t-iface \t:'+x.if+'\n');
-        stdout('\t-IP \t:'+x.ip+'\n');
-        stdout('\t-Mac \t:'+x.mac+'\n');
-        stdout('\t-Src \t:'+x.src+'\n');
-        stdout(c.Reset);
+    if(ListNotRecognized.length>0) {
+        stdout('\n'+c.FgWhite+c.BgRed+ ' -<< Not Recognized >>- \n' + c.Reset);
+        for(x of ListNotRecognized){
+            stdout(c.FgRed+ '> ');
+            stdout(c.FgMagenta+x.host+c.Reset+'\n');
+            stdout('\t-oid \t:'+x._oid+'\n');
+            stdout('\t-iface \t:'+x.if+'\n');
+            stdout('\t-IP \t:'+x.ip+'\n');
+            stdout('\t-Mac \t:'+x.mac+'\n');
+            stdout('\t-Src \t:'+x.src+'\n');
+            stdout(c.Reset);
+        }
     }
 }
 
