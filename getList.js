@@ -33,14 +33,6 @@ const callback = body => {
     });
 }
 
-let getList = () => {
-     rp(options)
-    .then(callback)
-    .catch(err => {
-        console.log(err);
-    });
-};
-
 module.exports = rp.post(url+'login.cgi',{
     simple: false,
     resolveWithFullResponse: true
