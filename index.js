@@ -1,6 +1,7 @@
-const getMAList = require('./getList');
+const getList = require('./getList');
+const dataManager = require('./dataManager');
 const savedData = require('./data/saved_data.json');
-const c = require('./colors.js');
+const c = require('./colors');
 
 var List={};
 var ListRecognized={};
@@ -36,9 +37,9 @@ const stdout = str =>{
 }
 
 const printList = () => {
-    stdout('\n'+c.FgWhite+c.BgBlue+ ' -<< Recognized >>- \n' + c.Reset+c.BgBlack);
+    stdout('\n'+c.FgBlue+ ' -<< Recognized >>- \n'+c.Reset);
     for(x in ListRecognized){
-        stdout(c.FgYellow+ '> ');
+        stdout(c.Reset+c.FgYellow+ '> ');
         stdout(c.FgCyan+x+' \t '+c.Reset+': ');
         for(y of ListRecognized[x]){
             if(y == ListRecognized[x][ListRecognized[x].length-1]) stdout(y+'\n');
@@ -47,9 +48,9 @@ const printList = () => {
         stdout(c.Reset);
     }
     if(ListNotRecognized.length>0) {
-        stdout('\n'+c.FgWhite+c.BgRed+ ' -<< Not Recognized >>- \n' + c.Reset);
+        stdout('\n'+c.FgRed+ ' -<< Not Recognized >>- \n'+c.Reset);
         for(x of ListNotRecognized){
-            stdout(c.FgRed+ '> ');
+            stdout(c.Reset+c.FgRed+ '> ');
             stdout(c.FgMagenta+x.host+c.Reset+'\n');
             stdout('\t-oid \t:'+x._oid+'\n');
             stdout('\t-iface \t:'+x.if+'\n');
@@ -61,9 +62,10 @@ const printList = () => {
     }
 }
 
-getMAList.then(resp => {
+getList().then(resp => {
     List = resp;
-    readList();
-    printList();
-})
-
+    if(List != undefined){
+        readList();
+        printList();
+    }
+});

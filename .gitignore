@@ -2,6 +2,7 @@
 
 /node_modules
 /data
+/reversedAPI
 
 keystore.json
 saved_data.json

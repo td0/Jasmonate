@@ -2,7 +2,7 @@ const request = require('request');
 const rp = require('request-promise');
 const key = require('./data/keystore.json');
 
-const url = key.url;
+const url = 'http://'+key.host+'/';
 var result;
 var retry = 2;
 var cookie = '';
@@ -11,7 +11,7 @@ var options = {
   method: 'GET',
   url: url+'lan_status.cgi?wlan',
   headers: {
-    'Host': '192.168.1.1',
+    'Host': key.host,
     'Connection': 'keep-alive',
     'Upgrade-Insecure-Requests': '1',
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
@@ -24,7 +24,7 @@ var options = {
   }
 };
 
-const callback = body => {
+const parseList = body => {
     const fbound = body.indexOf('var device_cfg=')+17;
     const lbound = body.indexOf('];') - fbound;
     result = JSON.parse(JSON.stringify(eval('['+body.substr(fbound, lbound)+']'), null, 2));
@@ -33,26 +33,25 @@ const callback = body => {
     });
 }
 
-module.exports = rp.post(url+'login.cgi',{
-    simple: false,
-    resolveWithFullResponse: true
-}).form({
-    name: key.username, pswd: key.pswd
-}).then( resp => {
-    if (resp.statusCode == 302) {
-        const tmpCookie = resp.headers['set-cookie'];
-        let tmp1 = tmpCookie[0];
-        let tmp2 = tmpCookie[1];
-        tmp1 = tmp1.substr(0,tmp1.indexOf(';'))+'; ';
-        tmp2 = tmp2.substr(0,tmp1.indexOf(';'))+';';
-        cookie = 'lang=eng; '+tmp1+tmp2;
-        options.headers['Cookie'] = cookie;
-        return rp(options);
-    } else return Promise.reject('username/password might not be correct!');
-})
-.then(callback)
-.catch( err => {
-    console.error(err);
-});
+module.exports = () =>
+    rp.post(url+'login.cgi',{
+        simple: false,
+        resolveWithFullResponse: true
+    }).form({
+        name: key.username, pswd: key.pswd
+    }).then( resp => {
+        if (resp.statusCode == 302) {
+            const tmpCookie = resp.headers['set-cookie'];
+            let tmp1 = tmpCookie[0];
+            let tmp2 = tmpCookie[1];
+            tmp1 = tmp1.substr(0,tmp1.indexOf(';'))+'; ';
+            tmp2 = tmp2.substr(0,tmp1.indexOf(';'))+';';
+            cookie = 'lang=eng; '+tmp1+tmp2;
+            options.headers['Cookie'] = cookie;
+            return rp(options);
+        } else return Promise.reject('username/password might not be correct!');
+    }).then(parseList).catch( err => {
+        console.error(err);
+    });
 
 
