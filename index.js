@@ -1,5 +1,5 @@
-const getList = require('./getList');
-const dataManager = require('./dataManager');
+const getList = require('./api/getList');
+const dataManager = require('./api/dataManager');
 const savedData = require('./data/saved_data.json');
 const c = require('./colors');
 

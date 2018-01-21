@@ -1,6 +1,6 @@
 const request = require('request');
 const rp = require('request-promise');
-const key = require('./data/keystore.json');
+const key = require(__dirname+'/../data/keystore.json');
 
 const url = 'http://'+key.host+'/';
 var result;

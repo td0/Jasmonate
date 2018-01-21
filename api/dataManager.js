@@ -1,5 +1,5 @@
 const fs = require('fs');
-var savedData = require('./data/saved_data.json');
+var savedData = require(__dirname+'/../data/saved_data.json');
 
 const writeData = (successString) => {
     let dataString = JSON.stringify(savedData, null, 4);
