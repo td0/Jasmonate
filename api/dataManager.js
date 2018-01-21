@@ -3,7 +3,7 @@ var savedData = require(__dirname+'/../data/saved_data.json');
 
 const writeData = (successString) => {
     let dataString = JSON.stringify(savedData, null, 4);
-    fs.writeFile(__dirname+'/data/saved_data.json', dataString, err => {
+    fs.writeFile(__dirname+'/../data/saved_data.json', dataString, err => {
         if (err) console.error(err);
         else {
             if (successString == undefined) successString = 'File successfully written!';
