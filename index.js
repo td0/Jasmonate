@@ -67,7 +67,7 @@ const addDataForm = blessed.form({
     align: 'left',
     content: ' {yellow-fg}{underline}Choose Host{/}',
     width: '100%',
-    height: '40%',
+    height: 9,
     valign: 'top',
     hidden: 'true',
     border: {type: 'line'},
@@ -79,6 +79,7 @@ const macListForm = blessed.list({
     parent: addDataForm,
     mouse: true,
     keys: true,
+    vi: true,
     width: 20,
     left: 1,
     top: 1,
@@ -131,7 +132,7 @@ const removeDataForm = blessed.box({
     align: 'left',
     content: ' {yellow-fg}{underline}Choose Data to Delete{/}',
     width: '100%',
-    height: '40%',
+    height: 9,
     valign: 'top',
     hidden: 'true',
     border: {type: 'line'},
@@ -143,6 +144,7 @@ const savedMacListForm = blessed.list({
     parent: removeDataForm,
     mouse: true,
     keys: true,
+    vi: true,
     width: 40,
     tags: true,
     left: 1,
@@ -262,7 +264,7 @@ aliasInputForm.on('focus', () => {
   aliasInputForm.readInput();
 });
 addDataForm.on('submit', (data) => {
-    addData.name = data.nameText;
+    addData.name = data.nameText.toLowerCase();
     addData.alias = data.aliasText;
     dataManager.add(addData);
     addData = {};
