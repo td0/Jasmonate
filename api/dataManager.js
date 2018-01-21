@@ -7,7 +7,7 @@ const writeData = (successString) => {
         if (err) console.error(err);
         else {
             if (successString == undefined) successString = 'File successfully written!';
-            console.log(successString);
+            // console.log(successString);
         }
     });
 };
@@ -22,25 +22,59 @@ const dataManager = {
                 "InterfaceType" : data.iface,
                 "Alias" : data.alias
             };
+            sortObjectbyValue();
             writeData('Data added!');
-        } else console.error('Data is already exists');
+        }
+        // else console.error('Data is already exists');
     },
     remove: (mac) => {
         if (mac != undefined){
             let nameTemp = savedData.macaddr[mac];
-            if (nameTemp!=undefined){
+            if (nameTemp != undefined){
                 delete savedData.users[nameTemp][mac];
                 delete savedData.macaddr[mac];
-                let isEmpty = Object.keys(savedData.users.test).length == 0;
+                let isEmpty = Object.keys(savedData.users[nameTemp]).length == 0;
                 if (isEmpty) delete savedData.users[nameTemp];
                 writeData('Data removed!');
 
-            } else console.error('Data is not available!');
-        } else console.error('You have to pass any saved physical address');
+            }
+            // else console.error('Data is not available!');
+        }
+        // else console.error('You have to pass any saved physical address');
+    },
+    sort: () => {
+        let list = savedData.macaddr;
+        let sortedArray = sortProperties(list);
+        for(x of sortedArray){
+            delete savedData.macaddr[x[0]];
+            savedData.macaddr[x[0]] = x[1];
+        }
     },
     test: () => {
         console.log(savedData.macaddr['dash28']);
     }
+}
+
+const sortObjectbyValue = () => {
+    const list = savedData.macaddr;
+    const sortedArray = sortProperties(list);
+    for(x of sortedArray){
+        delete savedData.macaddr[x[0]];
+        savedData.macaddr[x[0]] = x[1];
+    }
+}
+
+const sortProperties = (obj) => {
+    let sortable=[];
+    for(let key in obj)
+        if(obj.hasOwnProperty(key))
+            sortable.push([key, obj[key]]);
+    sortable.sort((a, b) => {
+        let x=a[1].toLowerCase(),
+            y=b[1].toLowerCase();
+        return x<y ? -1 : x>y ? 1 : 0;
+    });
+    return sortable;
 }
 
 module.exports = dataManager;
