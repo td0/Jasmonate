@@ -66,10 +66,11 @@ const addDataForm = blessed.form({
     tags: true,
     align: 'left',
     content: ' {yellow-fg}{underline}Choose Host{/}',
-    width: '100%',
-    height: 9,
+    width: '50%',
+    height: '100%',
     valign: 'top',
     hidden: 'true',
+    right: 0,
     border: {type: 'line'},
     style: {
         fg: 'white'
@@ -131,10 +132,11 @@ const removeDataForm = blessed.box({
     tags: true,
     align: 'left',
     content: ' {yellow-fg}{underline}Choose Data to Delete{/}',
-    width: '100%',
-    height: 9,
+    width: '50%',
+    height: '100%',
     valign: 'top',
     hidden: 'true',
+    right: 0,
     border: {type: 'line'},
     style: {
         fg: 'white'
@@ -315,7 +317,8 @@ const readList = () => {
                 ListRecognized[name].push({
                     alias: userList[name][x.MACAddress].Alias,
                     ip: x.IPAddress,
-                    mac: x.MACAddress
+                    mac: x.MACAddress,
+                    src: x.AddressSource
                 });
             } else {
                 if (ListNotRecognized == undefined) ListNotRecognized = [];
@@ -368,10 +371,11 @@ const printBlessedList = () => {
     for (x in ListRecognized) {
         bContent += '{yellow-fg}{bold}>{/} {cyan-fg}{bold}'+ x +'{/}\n';
         for (y of ListRecognized[x]) {
-            let space = ' ';
-            if (y.ip.length == 11) space += '  ';
-            else if (y.ip.length == 12) space += ' ';
-            bContent+='   -' + y.ip +space+': ' + y.alias + '\n';
+            let space = '';
+            let src = (y.src == 'Static')? '{magenta-fg}s{/}':'{blue-fg}d{/}';
+            if (y.ip.length == 11) space = '  ';
+            else if (y.ip.length == 12) space = ' ';
+            bContent+='   {yellow-fg}' +y.mac+'{/} ('+src+'.'+ y.ip.substr(10)+')' +space+': ' + y.alias + '\n';
         }
     }
     if (ListNotRecognized.length > 0) {

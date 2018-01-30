@@ -51,7 +51,7 @@ module.exports = () =>
             return rp(options);
         } else return Promise.reject('username/password might not be correct!');
     }).then(parseList).catch( err => {
-        console.error(err);
+        console.error('cant reach the destination');
     });
 
 
